@@ -68,11 +68,23 @@ function MouseRota(event){
 	function moveHandler(event){
 		var e = event || window.event;
 		
-		deltaX = e.clientX - startX;
-		deltaY = e.clientY - startY;
+		deltaX = Math.atan(
+			(e.clientX - startX)/DigiMoon.canvas.width )*0.15;
+		deltaY = Math.atan(
+			(e.clientY - startY)/DigiMoon.canvas.height);
+
+		var rotaMatrix = new THREE.Matrix4();
+		var yAxis = new THREE.Vector3(0,1,0);
+		
+		rotaMatrix.makeRotationAxis(yAxis, deltaX);
+
+		DigiMoon.models.matrix.multiply(rotaMatrix);
+		DigiMoon.models.rotation.setFromRotationMatrix(DigiMoon.models.matrix);
 		
 		console.log("DeltaX: " + deltaX);
 		console.log("DeltaY: "+ deltaY);
+
+		DigiMoon.draw();
 	};
 
 	function upHandler(event){
