@@ -2,7 +2,7 @@
 var canvas = document.getElementById( "WebMoon" );
 
 var scaleLevel = 5;
-
+var scaleStep = 0.3;
 var DigiMoon = new WebGLWin( canvas );
 
 if( canvas.addEventListener ){
@@ -41,10 +41,10 @@ function MouseWheelHandler(event){
 	
 	var scale = e.wheelDelta || e.detail;
 	if (scale >= 0 && scaleLevel >= 1 ){
-		scaleLevel -=0.3;
+		scaleLevel -= scaleStep;
 	}
 	else if (scale < 0 && scaleLevel < 40){
-		scaleLevel +=0.3;
+		scaleLevel += scaleStep;
 	};
 
 	DigiMoon.camera.position.set(0,0,scaleLevel);
@@ -52,3 +52,35 @@ function MouseWheelHandler(event){
 	console.log(scaleLevel);
 
 };
+
+function MouseRota(event){
+	var e = event || window.event;
+	var startX = e.clientX;
+	var startY = e.clientY;
+	
+	if (document.addEventListener){
+		document.addEventListener("mousemove", moveHandler, true);
+		document.addEventListener("mouseup", upHandler, true);
+	};
+
+	if (e.stopPropagation) e.stopPropagation();
+
+	function moveHandler(event){
+		var e = event || window.event;
+		
+		deltaX = e.clientX - startX;
+		deltaY = e.clientY - startY;
+		
+		console.log("DeltaX: " + deltaX);
+		console.log("DeltaY: "+ deltaY);
+	};
+
+	function upHandler(event){
+		var e = event || window.event;
+		
+		if (document.removeEventListener){
+			document.removeEventListener("mouseup", upHandler, true);
+			document.removeEventListener("mousemove",moveHandler, true);
+		};
+	};
+}
