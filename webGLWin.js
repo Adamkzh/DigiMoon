@@ -17,12 +17,14 @@ WebGLWin = function ( canvas, geometry, camera, material ){
                                      
     this.material = ( material !== undefined ) ? material : 
                     new THREE.MeshBasicMaterial( {color : 0x00ff00} );
-    this.material.wireframe = true;
+    // this.material.wireframe = true;
+
+	this.light = new THREE.AmbientLight(0x444040);
     
     this.models =  new THREE.Mesh( this.geometry, this.material );
    
     this.scene.add( this.models );
-    
+    this.scene.add( this.light ); 
     this.renderer = new THREE.WebGLRenderer( {canvas: canvas} ) ;
     
     this.loader = new THREE.PLYLoader();
