@@ -13,7 +13,7 @@ WebGLWin = function ( canvas, geometry, camera, material ){
     this.camera.position.set ( 0, 0, 5 );
     
     this.geometry = ( geometry !== undefined ) ? geometry : 
-                    new THREE.OctahedronGeometry( 1, 4 );
+                    new THREE.OctahedronGeometry( 1, 3 );
                                      
     this.material = ( material !== undefined ) ? material : 
                     new THREE.MeshBasicMaterial( {color : 0x00ff00} );

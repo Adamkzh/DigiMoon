@@ -3,6 +3,8 @@ var canvas = document.getElementById( "WebMoon" );
 
 var scaleLevel = 5;
 var scaleStep = 0.3;
+var PI = 3.14159265357989;
+
 var DigiMoon = new WebGLWin( canvas );
 
 if( canvas.addEventListener ){
@@ -69,21 +71,27 @@ function MouseRota(event){
 		var e = event || window.event;
 		
 		deltaX = Math.atan(
-			(e.clientX - startX)/DigiMoon.canvas.width )*0.15;
+			(e.clientX - startX)/DigiMoon.canvas.width )*0.3;
 		deltaY = Math.atan(
-			(e.clientY - startY)/DigiMoon.canvas.height);
+			(e.clientY - startY)/DigiMoon.canvas.height)*0.3;
 
-		var rotaMatrix = new THREE.Matrix4();
-		var yAxis = new THREE.Vector3(0,1,0);
 		
-		rotaMatrix.makeRotationAxis(yAxis, deltaX);
+		DigiMoon.models.rotation.y += deltaX;
+		if (DigiMoon.models.rotation.y > PI/2){
+			DigiMoon.models.rotation.y -= PI/2;
+		}else if(DigiMoon.models.rotation.y < -PI/2){
+			DigiMoon.models.rotation.y += PI/2;
+		};
 
-		DigiMoon.models.matrix.multiply(rotaMatrix);
-		DigiMoon.models.rotation.setFromRotationMatrix(DigiMoon.models.matrix);
-		
-		console.log("DeltaX: " + deltaX);
-		console.log("DeltaY: "+ deltaY);
+		DigiMoon.models.rotation.x += deltaY;
+		if (DigiMoon.models.rotation.x > PI/2){
+			DigiMoon.models.rotation.x -= PI/2;
+		}else if(DigiMoon.models.rotation.x < -PI/2){
+			DigiMoon.models.rotation.x += PI/2;
+		};
 
+		console.log("Theta: "+ DigiMoon.models.rotation.y);
+		console.log("Delta: "+ DigiMoon.models.rotation.x);;
 		DigiMoon.draw();
 	};
 
